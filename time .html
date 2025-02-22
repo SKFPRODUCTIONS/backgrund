@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SKF IMAGES: Bright and beautiful image compression, format conversion, and background removal tool">
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="SKF IMAGES - Bright Image Processing">
+    <meta property="og:image" content="https://skf-images.com/og-image.jpg">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "SKF IMAGES",
+        "applicationCategory": "Multimedia",
+        "operatingSystem": "Web"
+    }
+    </script>
+
+    <title>SKF IMAGES - Bright Image Processing</title>
+    
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Bright Gradient Background */
+        body {
+            background: linear-gradient(135deg, #f0f4ff, #e6f0ff);
+        }
+
+        /* Card Design */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Primary Button */
+        .primary-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Upload Zone Animation */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .upload-zone {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Skeleton Loading Animation */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 400% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 4px;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-blue-600">✨ SKF IMAGES</h1>
+                <button id="theme-toggle" class="primary-btn px-4 py-2 rounded-lg">
+                    🌓 Toggle Theme
+                </button>
+            </div>
+            
+            <!-- AdSense Header -->
+            <div class="mt-4 text-center" id="header-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2775618085175822"
+                    crossorigin="anonymous"></script>
+                <!-- Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-2775618085175822"
+                    data-ad-slot="1012268140"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="space-y-8">
+            <!-- Upload Section -->
+            <div class="card p-8 text-center">
+                <div id="drop-zone" class="upload-zone cursor-pointer">
+                    <p class="text-2xl font-bold mb-2 text-blue-600">📤 Drag & Drop Images</p>
+                    <p class="text-gray-600">Supports: JPEG, PNG, WEBP, GIF</p>
+                    <input type="file" id="file-input" class="hidden">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="card p-4">
+                    <label class="block text-lg font-bold mb-2 text-blue-600">🔧 Compression Level</label>
+                    <select id="compression" class="w-full p-2 rounded-lg bg-gray-50">
+                        <option value="0.8">High Quality</option>
+                        <option value="0.6">Balanced</option>
+                        <option value="0.4">High Compression</option>
+                    </select>
+                </div>
+
+                <div class="card p-4">
+                    <label class="block text-lg font-bold mb-2 text-blue-600">🔄 Output Format</label>
+                    <select id="format" class="w-full p-2 rounded-lg bg-gray-50">
+                        <option value="webp">WebP</option>
+                        <option value="png">PNG</option>
+                        <option value="jpeg">JPEG</option>
+                    </select>
+                </div>
+
+                <div class="card p-4">
+                    <label class="block text-lg font-bold mb-2 text-blue-600">🎭 Background</label>
+                    <select id="background" class="w-full p-2 rounded-lg bg-gray-50">
+                        <option value="keep">Keep Original</option>
+                        <option value="remove">Remove Background</option>
+                        <option value="white">White Background</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Previews -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="card p-4">
+                    <h3 class="text-lg font-bold mb-2 text-blue-600">Original Image</h3>
+                    <div id="original-preview" class="skeleton aspect-square rounded-lg"></div>
+                </div>
+                <div class="card p-4">
+                    <h3 class="text-lg font-bold mb-2 text-blue-600">Processed Result</h3>
+                    <div id="processed-preview" class="skeleton aspect-square rounded-lg"></div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div id="progress-bar" class="hidden">
+                <div class="progress-bar w-0"></div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4">
+                <button id="process-btn" class="w-full py-3 px-6 primary-btn rounded-lg font-bold">
+                    ⚡ Process & Download
+                </button>
+                <button id="reset-btn" class="w-full py-3 px-6 bg-gray-300 text-gray-800 rounded-lg font-bold hover:bg-gray-400">
+                    🗑️ Reset
+                </button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-8 text-center">
+            <!-- AdSense Footer -->
+            <div class="mb-4" id="footer-ad">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2775618085175822"
+                    crossorigin="anonymous"></script>
+                <!-- Ad Unit -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-2775618085175822"
+                    data-ad-slot="1012268140"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            <p class="text-gray-600">&copy; 2024 SKF IMAGES</p>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const API_KEY = 'XKH7bcTPxbTBxhKcxu9JKPgy';
+    let currentFile = null;
+
+    // Theme Toggle
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+    });
+
+    // File Handling
+    const handleFileUpload = (file) => {
+        if (!file.type.startsWith('image/')) {
+            alert('Please upload a valid image file (JPEG, PNG, WEBP, GIF).');
+            return;
+        }
+        if (file.size > 10 * 1024 * 1024) { // 10MB limit
+            alert('File size exceeds 10MB. Please upload a smaller file.');
+            return;
+        }
+
+        currentFile = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            document.getElementById('original-preview').innerHTML = `
+                <img src="${e.target.result}" class="w-full h-full object-contain rounded-lg">
+            `;
+        };
+        reader.readAsDataURL(file);
+    };
+
+    // Drag & Drop
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.addEventListener('dragover', (e) => e.preventDefault());
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        handleFileUpload(e.dataTransfer.files[0]);
+    });
+    dropZone.addEventListener('click', () => document.getElementById('file-input').click());
+    document.getElementById('file-input').addEventListener('change', (e) => {
+        handleFileUpload(e.target.files[0]);
+    });
+
+    // Reset Button
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        currentFile = null;
+        document.getElementById('original-preview').innerHTML = '';
+        document.getElementById('processed-preview').innerHTML = '';
+        document.getElementById('progress-bar').classList.add('hidden');
+    });
+
+    // Image Processing
+    document.getElementById('process-btn').addEventListener('click', async () => {
+        if (!currentFile) return alert('Please upload an image first!');
+
+        const compression = parseFloat(document.getElementById('compression').value);
+        const format = document.getElementById('format').value;
+        const bgMode = document.getElementById('background').value;
+
+        try {
+            // Show Progress Bar
+            const progressBar = document.querySelector('.progress-bar');
+            document.getElementById('progress-bar').classList.remove('hidden');
+            progressBar.style.width = '0%';
+
+            // Step 1: Background Removal
+            let processedBlob = currentFile;
+            if (bgMode === 'remove' || bgMode === 'white') {
+                const formData = new FormData();
+                formData.append('image_file', currentFile);
+                
+                const response = await fetch('https://api.remove.bg/v1.0/removebg', {
+                    method: 'POST',
+                    headers: { 'X-Api-Key': API_KEY },
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Background removal failed');
+                processedBlob = await response.blob();
+                progressBar.style.width = '50%';
+            }
+
+            // Step 2: Compression & Format Conversion
+            const img = await createImageBitmap(processedBlob);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            
+            const ctx = canvas.getContext('2d');
+            if (bgMode === 'white') {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            ctx.drawImage(img, 0, 0);
+
+            // Step 3: Final Processing
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                document.getElementById('processed-preview').innerHTML = `
+                    <img src="${url}" class="w-full h-full object-contain rounded-lg">
+                `;
+                progressBar.style.width = '100%';
+
+                // Create Download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `processed-image.${format}`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }, `image/${format}`, compression);
+            
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        } finally {
+            setTimeout(() => {
+                document.getElementById('progress-bar').classList.add('hidden');
+            }, 1000);
+        }
+    });
+
+    // Initialize AdSense
+    (adsbygoogle = window.adsbygoogle || []).push({});
+});
+</script>
+</body>
+</html>
